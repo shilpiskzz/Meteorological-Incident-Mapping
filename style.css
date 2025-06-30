@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+#map {
+    height: 90vh;
+    width: 100%;
+    flex-grow: 1;
+}
+
+#container {
+    display: flex;
+}
+
+#sidebar {
+    width: 300px;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    height: 90vh;
+    overflow-y: auto;
+}

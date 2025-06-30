@@ -1,0 +1,20 @@
+[
+    {
+        "lat": 28.7041,
+        "lng": 77.1025,
+        "type": "Flood",
+        "location": "Delhi"
+    },
+    {
+        "lat": 19.076,
+        "lng": 72.8777,
+        "type": "Rain",
+        "location": "Mumbai"
+    },
+    {
+        "lat": 13.0827,
+        "lng": 80.2707,
+        "type": "Storm",
+        "location": "Chennai"
+    }
+]
