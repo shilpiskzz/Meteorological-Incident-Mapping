@@ -1,36 +1,21 @@
-import React, { useState } from 'react';
-import MapComponent from './components/MapComponent';
-import IncidentList from './components/IncidentList';
-import FilterPanel from './components/FilterPanel';
-import incidentsData from './data/dummyIncidents.json';
+const applyFilters = (incidents) => {
+    return incidents.filter((i) => {
+        const { time, type, state, severity } = filters;
 
-const App = () => {
-    const [filteredIncidents, setFilteredIncidents] = useState(incidentsData);
+        const incidentDate = new Date(i.date);
+        const today = new Date();
 
-    const handleFilter = (filters) => {
-        let filtered = incidentsData;
+        const matchTime = !time || time === "all" || (
+            (time === "today" && incidentDate.toDateString() === today.toDateString()) ||
+            (time === "week" && incidentDate >= new Date(today - 7 * 86400000)) ||
+            (time === "month" && incidentDate >= new Date(today - 30 * 86400000))
+        );
 
-        if (filters.type) {
-            filtered = filtered.filter(i => i.type === filters.type);
-        }
-        if (filters.state) {
-            filtered = filtered.filter(i => i.location.includes(filters.state));
-        }
+        const matchType = !type || type === "all" || i.type === type;
+        const matchState = !state || state === "all" || i.state === state;
+        const matchSeverity = !severity || severity === "all" || i.severity === severity;
 
-        setFilteredIncidents(filtered);
-    };
-
-    return (
-        <div className="flex h-screen">
-            <div className="w-1/4 p-4 bg-gray-100 overflow-y-auto">
-                <FilterPanel onFilter={handleFilter} />
-                <IncidentList incidents={filteredIncidents} />
-            </div>
-            <div className="w-3/4 h-full">
-                <MapComponent incidents={filteredIncidents} />
-            </div>
-        </div>
-    );
+        return matchTime && matchType && matchState && matchSeverity;
+    });
 };
 
-export default App;
