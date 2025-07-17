@@ -1,52 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import indiaTopo from "../data/india.topo.json";
-import { Tooltip } from "react-tooltip";
 
-const Map = ({ incidents }) => {
-    const incidentCountByState = {};
-    incidents.forEach((inc) => {
-        incidentCountByState[inc.state] = (incidentCountByState[inc.state] || 0) + 1;
-    });
+const Map = () => {
+    const [geoData, setGeoData] = useState(null);
 
-    const getColor = (count) => {
-        if (!count) return "#E0E0E0";
-        if (count < 3) return "#90CAF9";
-        if (count < 10) return "#42A5F5";
-        return "#1565C0";
-    };
+    useEffect(() => {
+        fetch("/india.geo.json")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log("✅ GeoJSON loaded:", data);
+                setGeoData(data);
+            })
+            .catch((err) => console.error("❌ GeoJSON fetch error", err));
+    }, []);
+
+    if (!geoData) return <div>Loading map...</div>;
 
     return (
-        <div className="bg-white p-4 shadow rounded">
+        <div className="bg-white p-4 shadow rounded mt-4" style={{ height: "650px" }}>
             <h2 className="text-xl font-semibold mb-2">India Map</h2>
-            <ComposableMap projection="geoMercator" projectionConfig={{ scale: 1000 }} width={500} height={600}>
-                <Geographies geography={indiaTopo}>
+            <ComposableMap
+                projection="geoMercator"
+                projectionConfig={{ scale: 1000 }}
+                width={600}
+                height={600}
+                style={{ width: "100%", height: "auto" }}
+            >
+                <Geographies geography={geoData}>
                     {({ geographies }) =>
-                        geographies.map((geo) => {
-                            const stateName = geo.properties.ST_NM;
-                            const count = incidentCountByState[stateName];
-                            return (
-                                <Geography
-                                    key={geo.rsmKey}
-                                    geography={geo}
-                                    fill={getColor(count)}
-                                    stroke="#FFF"
-                                    data-tooltip-id="map-tooltip"
-                                    data-tooltip-content={`${stateName} – ${count || 0} incidents`}
-                                    style={{
-                                        default: { outline: "none" },
-                                        hover: { fill: "#FF5722", outline: "none" },
-                                        pressed: { outline: "none" },
-                                    }}
-                                />
-                            );
-                        })
+                        geographies.map((geo) => (
+                            <Geography
+                                key={geo.rsmKey}
+                                geography={geo}
+                                fill="#90CAF9"
+                                stroke="#FFFFFF"
+                                style={{
+                                    default: { outline: "none" },
+                                    hover: { fill: "#42A5F5", outline: "none" },
+                                    pressed: { fill: "#1E88E5", outline: "none" },
+                                }}
+                            />
+                        ))
                     }
                 </Geographies>
             </ComposableMap>
-            <Tooltip id="map-tooltip" />
         </div>
     );
 };
 
 export default Map;
+
+
+
+
+

@@ -34,7 +34,6 @@ const Filters = ({ filters, setFilters }) => {
                     <option value="Assam">Assam</option>
                     <option value="Delhi">Delhi</option>
                     <option value="Maharashtra">Maharashtra</option>
-                    <!-- Add more states -->
                 </select>
             </div>
             <div>
