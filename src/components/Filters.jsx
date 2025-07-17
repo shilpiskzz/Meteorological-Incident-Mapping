@@ -1,10 +1,11 @@
 import React from "react";
 
-const Filters = ({ filters, setFilters }) => {
+const Filters = ({ filters, setFilters, incidents }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFilters((prev) => ({ ...prev, [name]: value }));
     };
+    const uniqueStates = [...new Set(incidents.map((i) => i.state))].sort();
 
     return (
         <div className="bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -29,12 +30,19 @@ const Filters = ({ filters, setFilters }) => {
             </div>
             <div>
                 <label className="text-sm font-medium">State</label>
-                <select name="state" onChange={handleChange} className="w-full border p-2 rounded">
-                    <option value="all">All States</option>
-                    <option value="Assam">Assam</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Maharashtra">Maharashtra</option>
+                <select
+                    value={filters.state}
+                    onChange={(e) => setFilters({ ...filters, state: e.target.value })}
+                    className="border p-2 rounded"
+                >
+                    <option value="">All States</option>
+                    {uniqueStates.map((state) => (
+                        <option key={state} value={state}>
+                            {state}
+                        </option>
+                    ))}
                 </select>
+
             </div>
             <div>
                 <label className="text-sm font-medium">Severity</label>
