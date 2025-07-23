@@ -3,4 +3,4 @@ This dashboard harmonizes geospatial intelligence, real-time filtering, and data
 
 ## Demo Video
 
-[Watch the demo video]([https://github.com/user-attachments/assets/72ff02b6-a52f-4d68-aa29-b1ef8f7dd59b](https://drive.google.com/file/d/1SMI_G1KmZY_TuwPcNkYtlmZv3p2_m2TR/view?usp=sharing))
+[Watch the demo video]((https://drive.google.com/file/d/1SMI_G1KmZY_TuwPcNkYtlmZv3p2_m2TR/view?usp=sharing))
